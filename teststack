@@ -1,0 +1,33 @@
+heat_template_version: 2015-04-30
+
+description: Mikko testailee pilvee
+
+parameters:
+    key_name:
+        type: string
+        label: Key Name
+        default: MikkoLaakkonen
+        description: Name of key-pair to be used for compute instance
+ 
+    image_id:
+        type: string
+        label: Image ID
+        description: Image to be used for compute instance
+        default: Ubuntu 14.04.1 LTS amd64 (Trusty Tahr)
+
+    instance_type:
+        type: string
+        label: Instance Type
+        description: Type of instance (flavor) to be used
+        default: nbl-n1-small
+        constraints:
+        - allowed_values: [ nbl-n1-small, nbl-n1-medium, nbl-n1-large ]
+        description: Value must be either nbl-n1-small, nbl-n1-medium or nbl-n1-large
+
+resources:
+  webfront1:
+    type: OS::Nova::Server
+    properties:
+      key_name: { get_param: key_name }
+      image: { get_param: image_id }
+      flavor: { get_param: instance_type }
